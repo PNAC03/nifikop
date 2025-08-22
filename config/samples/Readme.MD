@@ -15,20 +15,20 @@ This repository contains Kubernetes manifests for deploying **Apache NiFi** usin
 
 ## 🏗️ Architecture Overview
 
-[ Browser ]
-│ https://myserver.example.com/nifidev/
-▼
-[ Ingress Controller ]
-│ Host: myserver.example.com
-▼
-[ NGINX Proxy Pod (Path Normalization Layer) ]
-│ Rewrites /nifidev/* → /*
-│ Adds proxy headers (X-ProxyHost, X-ProxyScheme, Host, etc.)
-▼
-[ NiFi Cluster Service (NiFiKop) ]
-│ Accepts requests at root /
-▼
-[ NiFi Web UI, API, Custom UIs, Viewers ]
+User Browser
+    |
+    v
+Ingress Controller (host/path routing)
+    |
+    v
+Intermediate NGINX Pod (reverse proxy)
+    |   - rewrites /nifidev → /
+    |   - maintains all headers: X-ProxyScheme, X-ProxyHost, etc.
+    v
+NiFiKop Service (nifikop)
+    |
+    v
+NiFi Pods (always serve at /)
 
 ---
 
